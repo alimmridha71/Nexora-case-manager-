@@ -15,14 +15,18 @@ export default function ClientLoginPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const res = await clientLoginAction(new FormData(e.currentTarget));
-    if (res.success) {
-      router.push('/client');
-      router.refresh();
-    } else {
+    try {
+      const res = await clientLoginAction(new FormData(e.currentTarget));
+      if (res.success) {
+        router.push('/client');
+        router.refresh();
+        return;
+      }
       setError(res.error || 'Sign-in failed.');
-      setLoading(false);
+    } catch {
+      setError('Could not reach the server. Please try again.');
     }
+    setLoading(false);
   }
 
   return (

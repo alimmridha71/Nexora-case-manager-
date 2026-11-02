@@ -12,7 +12,7 @@ async function clientIp(): Promise<string> {
   return h.get('x-forwarded-for')?.split(',')[0].trim() || h.get('x-real-ip') || 'unknown';
 }
 
-export async function adminLoginAction(formData: FormData) {
+async function adminLoginInner(formData: FormData) {
   const email = formData.get('email')?.toString().trim().toLowerCase();
   const password = formData.get('password')?.toString();
 
@@ -56,6 +56,19 @@ export async function adminLoginAction(formData: FormData) {
   });
 
   return { success: true };
+}
+
+/** Never throws: any server-side failure becomes a readable error instead of a hung login form. */
+export async function adminLoginAction(formData: FormData): Promise<{ success: boolean; error?: string }> {
+  try {
+    return await adminLoginInner(formData);
+  } catch (err) {
+    console.error('Admin login failed unexpectedly:', err instanceof Error ? err.message : err);
+    return {
+      success: false,
+      error: 'Sign-in is temporarily unavailable. Please check the server configuration (SESSION_SECRET, ADMIN_EMAIL, admin password) and try again.',
+    };
+  }
 }
 
 export async function adminLogoutAction() {

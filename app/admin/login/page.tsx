@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@example.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -17,16 +17,22 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
 
-    const formData = new FormData(e.currentTarget);
-    const res = await adminLoginAction(formData);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const res = await adminLoginAction(formData);
 
-    if (res?.success) {
-      router.push('/admin');
-      router.refresh();
-    } else {
+      if (res?.success) {
+        const target = new URLSearchParams(window.location.search).get('redirect');
+        // Only allow same-site admin paths (prevents open redirects)
+        router.push(target && /^\/admin(\/[\w\-./]*)?$/.test(target) ? target : '/admin');
+        router.refresh();
+        return;
+      }
       setError(res?.error || 'Invalid administrator credentials.');
-      setLoading(false);
+    } catch {
+      setError('Could not reach the server. Please try again.');
     }
+    setLoading(false);
   }
 
   return (
@@ -60,6 +66,8 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="username"
+                placeholder="admin email"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-white text-xs font-mono focus:outline-none focus:border-gold"
               />
             </div>
@@ -76,6 +84,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Enter password"
+                autoComplete="current-password"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-white text-xs font-mono focus:outline-none focus:border-gold"
               />
             </div>

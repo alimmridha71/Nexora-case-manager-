@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 1.3.1
+
+- Login: admin and client sign-in actions never throw; a server misconfiguration now shows an error message instead of a form stuck on "Authenticating...".
+- Login pages: `try/finally` handling, no prefilled admin email, safe same-site `redirect` handling, autocomplete attributes.
+- Security headers (CSP, HSTS, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, COOP) and `no-store` caching on `/admin` and `/client`; `X-Powered-By` removed.
+- Added `.gitignore` (blocks `.env*` and secret notes) and `.env.example`.
+
 ## [1.3.0] — 2026-11-02
 
 ### Added

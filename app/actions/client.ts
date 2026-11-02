@@ -28,7 +28,7 @@ async function clientIp(): Promise<string> {
   return h.get('x-forwarded-for')?.split(',')[0].trim() || h.get('x-real-ip') || 'unknown';
 }
 
-export async function clientLoginAction(formData: FormData) {
+async function clientLoginInner(formData: FormData) {
   const parsed = LoginSchema.safeParse({
     email: formData.get('email')?.toString() || '',
     password: formData.get('password')?.toString() || '',
@@ -72,6 +72,16 @@ export async function clientLoginAction(formData: FormData) {
     maxAge: CONFIG.client.sessionTtlSeconds,
   });
   return { success: true };
+}
+
+/** Never throws: any server-side failure becomes a readable error instead of a hung login form. */
+export async function clientLoginAction(formData: FormData): Promise<{ success: boolean; error?: string }> {
+  try {
+    return await clientLoginInner(formData);
+  } catch (err) {
+    console.error('Client login failed unexpectedly:', err instanceof Error ? err.message : err);
+    return { success: false, error: 'Sign-in is temporarily unavailable. Please try again later.' };
+  }
 }
 
 export async function clientLogoutAction() {
