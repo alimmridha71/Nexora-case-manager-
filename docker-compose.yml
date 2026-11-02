@@ -1,0 +1,44 @@
+services:
+  nexora-law:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:?NEXT_PUBLIC_SUPABASE_URL is required}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:?NEXT_PUBLIC_SUPABASE_ANON_KEY is required}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_STORAGE_BUCKET: ${NEXT_PUBLIC_STORAGE_BUCKET:-case-documents}
+    container_name: nexora-law-firm
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:?NEXT_PUBLIC_SUPABASE_URL is required}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY:?NEXT_PUBLIC_SUPABASE_ANON_KEY is required}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY:?SUPABASE_SERVICE_ROLE_KEY is required}
+      - SESSION_SECRET=${SESSION_SECRET:?SESSION_SECRET is required with minimum 32 characters}
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_STORAGE_BUCKET=${NEXT_PUBLIC_STORAGE_BUCKET:-case-documents}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:?ADMIN_EMAIL is required}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-}
+      - ADMIN_DEFAULT_PASSWORD=${ADMIN_DEFAULT_PASSWORD:-}
+      - HOME_MODE=${HOME_MODE:-product}
+      - FIRM_NAME=${FIRM_NAME:-Nexora Law Firm}
+      - FIRM_LEGAL_NAME=${FIRM_LEGAL_NAME:-Nexora Legal Advocacy & Advisory Chambers LLC}
+      - FIRM_SHORT_NAME=${FIRM_SHORT_NAME:-NEXORA}
+      - FIRM_SUBTITLE=${FIRM_SUBTITLE:-Law Firm Chambers}
+      - FIRM_TAGLINE=${FIRM_TAGLINE:-Advocates & Legal Consultants}
+      - BRAND_PRIMARY_COLOR=${BRAND_PRIMARY_COLOR:-#6b1d2f}
+      - BRAND_ACCENT_COLOR=${BRAND_ACCENT_COLOR:-#c5a059}
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - NOTIFY_FROM_EMAIL=${NOTIFY_FROM_EMAIL:-}
+      - FIRM_PHONE=${FIRM_PHONE}
+      - FIRM_EMAIL=${FIRM_EMAIL}
+      - FIRM_OFFICE_ADDRESS=${FIRM_OFFICE_ADDRESS}
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

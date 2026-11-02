@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0d0d0d;
+  --foreground: #f5f5f5;
+  --gold: #c5a059;
+  --burgundy: #6b1d2f;
+  /* Brand colors as RGB triplets (overridden from env in app/layout.tsx) */
+  --c-gold: 197 160 89;
+  --c-gold-light: 223 194 137;
+  --c-gold-dark: 154 124 62;
+  --c-burgundy: 107 29 47;
+  --c-burgundy-light: 142 39 62;
+  --c-burgundy-dark: 74 19 32;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, rgb(var(--c-gold)) 0%, rgb(var(--c-gold-light)) 50%, rgb(var(--c-gold)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-panel {
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(var(--c-gold) / 0.2);
+}
