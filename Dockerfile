@@ -3,7 +3,7 @@
 # Multi-stage optimized Node.js 20 Alpine container with non-root runtime
 # ==============================================================================
 
-FROM node:20.18-alpine AS base
+FROM node:22-alpine AS base
 RUN apk add --no-cache libc6-compat
 
 # Step 1: Install dependencies

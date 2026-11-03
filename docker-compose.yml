@@ -33,9 +33,9 @@ services:
       - BRAND_ACCENT_COLOR=${BRAND_ACCENT_COLOR:-#c5a059}
       - RESEND_API_KEY=${RESEND_API_KEY:-}
       - NOTIFY_FROM_EMAIL=${NOTIFY_FROM_EMAIL:-}
-      - FIRM_PHONE=${FIRM_PHONE}
-      - FIRM_EMAIL=${FIRM_EMAIL}
-      - FIRM_OFFICE_ADDRESS=${FIRM_OFFICE_ADDRESS}
+      - FIRM_PHONE=${FIRM_PHONE:-+1-800-555-0199}
+      - FIRM_EMAIL=${FIRM_EMAIL:-contact@nexoralaw.com}
+      - FIRM_OFFICE_ADDRESS=${FIRM_OFFICE_ADDRESS:-742 Evergreen Terrace, Suite 500, New York, NY 10001}
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
       interval: 30s
