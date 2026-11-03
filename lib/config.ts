@@ -28,9 +28,15 @@ export const CONFIG = {
     },
     // Fallback only when no hash is configured (plaintext env password)
     get defaultPassword(): string {
+      if (process.env.NODE_ENV === 'production') {
+        const hash = process.env.ADMIN_PASSWORD_HASH;
+        if (!hash) {
+          throw new Error('ADMIN_PASSWORD_HASH is mandatory in production mode.');
+        }
+      }
       const pwd = process.env.ADMIN_DEFAULT_PASSWORD;
-      if (!pwd) {
-        throw new Error('Set ADMIN_PASSWORD_HASH (recommended) or ADMIN_DEFAULT_PASSWORD in environment variables');
+      if (!pwd || pwd === 'your-secure-admin-password-here') {
+        throw new Error('Set ADMIN_PASSWORD_HASH (recommended) or a valid non-placeholder ADMIN_DEFAULT_PASSWORD in environment variables');
       }
       return pwd;
     },

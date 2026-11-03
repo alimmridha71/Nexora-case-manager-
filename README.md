@@ -2,12 +2,12 @@
 
 > **Case management and client portal software for law firms.** Staff manage cases and timelines; clients sign in to follow their own matters and get notified when something changes. A configurable demo firm website is included.
 
-[![CI](https://github.com/Jakia5876/Nexora-Law-Firm/actions/workflows/ci.yml/badge.svg)](https://github.com/Jakia5876/Nexora-Law-Firm/actions/workflows/ci.yml)
+[![CI](https://github.com/alimmridha71/Nexora-case-manager-/actions/workflows/ci.yml/badge.svg)](https://github.com/alimmridha71/Nexora-case-manager-/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](CHANGELOG.md)
-[![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://nexoralaw.vercel.app/)
+[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](CHANGELOG.md)
+[![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://nexora-case-manager.vercel.app/)
 
-**Live Demo**: [nexoralaw.vercel.app](https://nexoralaw.vercel.app/)
+**Live Demo**: [nexora-case-manager.vercel.app](https://nexora-case-manager.vercel.app/)
 
 ## What you get
 
@@ -34,7 +34,7 @@
 | 5 | White-label branding from environment variables | `lib/config.ts`, `lib/brand.ts`, `tailwind.config.ts`, `app/layout.tsx` |
 
 ## Demo
-Live URL: https://nexoralaw.vercel.app/ — sample data comes from `database/seed.sql` (cases, timeline, intake submissions, a demo client). Demo credentials are **not** stored in this repository; they are in the buyer datasheet. Create the demo client password with `npm run seed-demo` (see `HowToSetup.md`).
+Live URL: https://nexora-case-manager.vercel.app/ — sample data comes from `database/seed.sql` (cases, timeline, intake submissions, a demo client). Demo credentials are **not** stored in this repository; they are in the buyer datasheet. Create the demo client password with `npm run seed-demo` (see `HowToSetup.md`).
 
 ## Security model
 - Separate admin and client sessions (different JWT roles and cookies); a client token can never pass the admin guard.

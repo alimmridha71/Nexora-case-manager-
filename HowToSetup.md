@@ -10,13 +10,23 @@ Demo credentials are not stored in this repository; they are provided in the buy
 ## Step 1: Database (both targets)
 **New project (empty database):**
 1. Create a project at https://supabase.com
-2. SQL Editor -> run `database/schema.sql`, then `database/seed.sql`.
-3. Storage -> create a bucket named `case-documents` (private).
+2. SQL Editor -> run `database/schema.sql`, which creates all 19 tables, indexes, and Row Level Security policies.
+3. SQL Editor -> run `database/seed.sql` to populate sample practice areas, attorneys, courts, and initial demo data.
+4. Storage -> create a bucket named `case-documents` (private) for client document vaults.
+5. Seed demo client: run `npm run seed-demo` (creates `demo.client@example.com` with seeded case access).
 
 **Existing database (upgrading):** run these in order **before deploying** (each is safe to repeat and only adds new tables):
 1. `database/migrations/001_revoked_tokens.sql` — session revocation store. The app fails closed, so admin login will not work until this table exists.
 2. `database/migrations/002_client_portal.sql` — client accounts, case access, case timeline, notifications.
 3. `database/migrations/003_case_files.sql` — case file uploads (the private storage bucket is created automatically on the first upload).
+
+## Custom Branding & White-Labeling
+Nexora Law Firm includes custom white-label capabilities via environment variables:
+- **`FIRM_NAME`**: Legal firm corporate name.
+- **`FIRM_SHORT_NAME`**: Short header brand name.
+- **`BRAND_PRIMARY_COLOR`**: Primary color token (hex, e.g. `#6b1d2f` for Burgundy).
+- **`BRAND_ACCENT_COLOR`**: Accent color token (hex, e.g. `#c5a059` for Gold).
+- **`HOME_MODE`**: `firm` to present the legal advisory homepage, or `product` to present the software case-manager product landing page.
 
 ## Step 2: Environment variables
 
